@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/submit-log', upload.array('photos', 10), async (req, res) => {
-  const { foreman, date, employees, taskDescription } = req.body;
+  const { foreman, date, jobNumber, employees, taskDescription } = req.body;
   const parsedEmployees = JSON.parse(employees || '[]');
 
   const transporter = nodemailer.createTransport({
@@ -20,8 +20,8 @@ app.post('/submit-log', upload.array('photos', 10), async (req, res) => {
     port: 587,
     secure: false, // STARTTLS
     auth: {
-      user: 'colepuls@me.com',
-      pass: 'ogmy-gwir-drlu-emhk', // from Apple ID
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -37,6 +37,7 @@ app.post('/submit-log', upload.array('photos', 10), async (req, res) => {
     text: `
 Foreman: ${foreman}
 Date: ${date}
+Job #: ${jobNumber}
 
 Employees:
 ${parsedEmployees.map((e, i) => `${i + 1}. ${e.name} - ${e.hours} hours`).join('\n')}
