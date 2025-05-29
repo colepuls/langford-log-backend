@@ -31,7 +31,7 @@ app.post('/submit-log', upload.array('photos', 10), async (req, res) => {
   }));
 
   const mailOptions = {
-    from: 'userEmail',
+    from: userEmail || process.env.EMAIL_USER,
     to: 'coleberr6@gmail.com',
     subject: `Daily Log - ${date} - ${foreman}`,
     text: `
