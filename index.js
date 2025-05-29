@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/submit-log', upload.array('photos', 10), async (req, res) => {
-  const { foreman, date, jobNumber, employees, taskDescription } = req.body;
+  const { foreman, date, jobNumber, employees, taskDescription, userEmail } = req.body;
   const parsedEmployees = JSON.parse(employees || '[]');
 
   const transporter = nodemailer.createTransport({
@@ -31,7 +31,7 @@ app.post('/submit-log', upload.array('photos', 10), async (req, res) => {
   }));
 
   const mailOptions = {
-    from: 'colepuls@me.com',
+    from: 'userEmail',
     to: 'coleberr6@gmail.com',
     subject: `Daily Log - ${date} - ${foreman}`,
     text: `
